@@ -1,0 +1,43 @@
+version: '3'
+services:
+  node-api:
+    command: npm start
+    build: ./node-api
+    volumes:
+      - ./node-api:/usr/src/app
+    ports:
+      - "4200:4200"
+    depends_on:
+      - db
+
+
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - ./.env                                              #use settings in .env file
+    ports:
+        - "5432:5432"
+    volumes:
+        - ./postgre-db/data/postgres/pgdata:/var/lib/postgresq/data/pgdata
+        - ./postgre-db/puppies.sql:/docker-entrypoint-initdb.d/puppies.sql
+
+
+  pgadmin:
+    image: fenglc/pgadmin4
+    volumes:
+      - /data/pgadmin:/root/.pgadmin
+    ports:
+      - "5050:5050"
+    depends_on:
+      - db                                                                           
+    restart: unless-stopped
+
+  angular:
+    build: ./jb-angular
+    ports:
+      - "8080:80"
+    depends_on:
+      - node-api
+  
+  

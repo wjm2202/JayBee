@@ -1,0 +1,24 @@
+//connect to running container
+docker exec -it b742df7133e7 bash      //change hash for current hash
+ 
+//login to postgres inside container in bash
+psql -U postgres       //connect to the  db   
+
+//show JBUser
+select * from pg_shadow;
+
+//show tables
+SELECT * FROM pg_catalog.pg_tables;
+
+\q                                         //exit psql
+
+//pgadmin on localhost:5050   database managment
+user: pgadmin4@pgadmin.org
+password: admin
+
+//create connection
+172.19.0.2            //host
+5432                  //port
+JBDBUser              //username
+puppies               //database
+JBUserPassword        //password
